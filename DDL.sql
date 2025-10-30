@@ -1,9 +1,6 @@
 SET FOREIGN_KEY_CHECKS=0;
 SET AUTOCOMMIT = 0;
 
-CREATE SCHEMA IF NOT EXISTS mydb DEFAULT CHARACTER SET utf8;
-USE mydb;
-
 -- -----------------------------------------------------
 -- Create Races table
 -- -----------------------------------------------------
@@ -102,8 +99,8 @@ CREATE TABLE IF NOT EXISTS AidStationSupplies (
 
 INSERT INTO Races (name, date, distance, type)
 VALUES ('Over the Hills', 20241212, 12, 'trail'),
-       ('Country Cross', 20201010, '52', 'road'),
-       ('Ultra Run', 20260303, '146', 'road');
+       ('Country Cross', 20201010, 52, 'road'),
+       ('Ultra Run', 20260303, 146, 'road');
 
 INSERT INTO AidStations (raceID, name,  mileMarker, elevation, latitude, longitude)
 VALUES ((SELECT raceID FROM Races WHERE name = 'Country Cross'), 'The Hub', 3, 1000, 22, 123),
