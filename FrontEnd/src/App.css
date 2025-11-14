@@ -49,6 +49,9 @@ table {
   border-collapse: collapse;
   border: 2px solid rgb(200,200,200);
   letter-spacing: 1px;
+  color: black;
+  text-align: center;
+  margin: 0 auto;
 }
 
 td, th {
@@ -78,4 +81,20 @@ caption {
 
 h1 {
   color: black;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 300px;
+}
+
+.form label {
+  font-weight: bold;
+}
+
+.form input {
+  padding: 6px;
+  font-size: 1rem;
 }

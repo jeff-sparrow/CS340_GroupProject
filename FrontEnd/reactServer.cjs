@@ -1,3 +1,7 @@
+// ChatGPT was used in this project to generate template React components
+// The templates were adapted to the specific use cases for this project
+
+
 // reactServer.cjs
 // Uses common JavaScript to serve the React build folder (/dist)
 

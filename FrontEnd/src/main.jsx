@@ -34,24 +34,24 @@ createRoot(document.getElementById('root')).render(
           <Route index Component={HomePage} />
 
           <Route path='/Races' Component={Races} />
-          <Route path='/Races/:id' Component={RaceDetailView} />
+          <Route path='/Races/:raceID' Component={RaceDetailView} />
           <Route path='/Races/Create' Component={CreateRace} />
-          <Route path='/Races/Edit/:id' Component={EditRace} />
+          <Route path='/Races/Edit/:raceID' Component={EditRace} />
 
           <Route path='/AidStations' Component={AidStations} />
-          <Route path='/AidStations/:id' Component={AidStationDetailView} />
-          <Route path='/AidStations/:id/AddVolunteer' Component={AidStationVolunteerAssignment} />
-          <Route path='/AidStations/:id/AddSupply' Component={AidStationSupplyAssignment} />
+          <Route path='/AidStations/:stationID' Component={AidStationDetailView} />
+          <Route path='/AidStations/:stationID/AddVolunteer' Component={AidStationVolunteerAssignment} />
+          <Route path='/AidStations/:stationID/AddSupply' Component={AidStationSupplyAssignment} />
           <Route path='/AidStations/Create' Component={CreateAidStation} />
-          <Route path='/AidStations/Edit/:id' Component={EditAidStation} />
+          <Route path='/AidStations/Edit/:stationID' Component={EditAidStation} />
 
           <Route path='/Volunteers' Component={Volunteers} />
           <Route path='/Volunteers/Create' Component={CreateVolunteer} />
-          <Route path='/Volunteers/Edit/:id' Component={EditVolunteer} />
+          <Route path='/Volunteers/Edit/:volunteerID' Component={EditVolunteer} />
 
           <Route path='/Supplies' Component={Supplies} />
           <Route path='/Supplies/Create' Component={CreateSupplies} />
-          <Route path='/Supplies/Edit/:id' Component={EditSupplies} />
+          <Route path='/Supplies/Edit/:supplyID' Component={EditSupplies} />
         </Route>
       </Routes>
     </BrowserRouter>

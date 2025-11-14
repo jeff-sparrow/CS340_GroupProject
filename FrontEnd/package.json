@@ -9,11 +9,13 @@
     "production": "npx forever start reactServer.cjs",
     "stop_production": "npx forever stop reactServer.cjs",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "nodemon reactServer.cjs"
   },
   "dependencies": {
     "express": "^4.21.2",
     "forever": "^4.0.3",
+    "nodemon": "^3.1.11",
     "path": "^0.12.7",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
