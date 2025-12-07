@@ -14,7 +14,9 @@ function Volunteers({ backendURL }) {
         }
     };
 
-    useEffect(() => getData(), []);
+    useEffect(() => {
+        getData();
+    }, []);
 
     return (
         <>

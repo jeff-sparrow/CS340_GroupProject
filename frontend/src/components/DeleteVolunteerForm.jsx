@@ -4,7 +4,7 @@ const DeleteVolunteerForm = ({ rowObject, backendURL, refreshData }) => {
     const handleDelete = async () => {
         if (!window.confirm(`Delete volunteer ${rowObject.fname} ${rowObject.lname}?`)) return;
         try {
-            const res = await fetch(`${backendURL}/volunteers/delete`, {
+            const res = await fetch(`${backendURL}/aid-station-volunteers/remove`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ volunteerID: rowObject.volunteerID })
@@ -15,7 +15,7 @@ const DeleteVolunteerForm = ({ rowObject, backendURL, refreshData }) => {
         }
     };
 
-    return <button onClick={handleDelete}>Delete</button>;
+    return <button onClick={handleDelete}>Remove</button>;
 };
 
 export default DeleteVolunteerForm;

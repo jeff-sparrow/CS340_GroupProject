@@ -38,7 +38,7 @@ const UpdateRaceForm = ({ races, backendURL, refreshRaces }) => {
 
     return (
         <>
-        <h2>Update a Race</h2>
+        <h2>Update Race Details</h2>
         <form className='cuForm' onSubmit={handleSubmit}>
             <label htmlFor="update_race_id">Select Race: </label>
             <select

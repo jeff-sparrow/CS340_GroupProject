@@ -150,6 +150,18 @@ app.post('/supplies/update', async (req, res) => {
     }
 });
 
+app.post('/volunteers/update', async (req, res) => {
+    try {
+        const { volunteerID, fname, lname, email, phone, role } = req.body;
+        const query = `UPDATE Volunteers SET fname=?, lname=?, email=?, phone=?, role=? WHERE volunteerID=?;`;
+        await db.query(query, [fname, lname, email, phone, role, volunteerID]);
+        res.status(200).json({ message: 'Volunteer information updated' });
+    } catch (err) {
+        console.error('Error updating volunteer information:', err);
+        res.status(500).send('Error updating volunteer information');
+    }
+});
+
 // DELETE ROUTES
 app.post('/races/delete', async function (req, res) {
     try {
@@ -211,6 +223,17 @@ app.post('/aid-station-volunteers/remove', async (req, res) => {
     }
 });
 
+app.post('/aid-station-supplies/remove', async (req, res) => {
+    try {
+        const { stationSupplyID } = req.body;
+        await db.query('DELETE FROM AidStationVolunteers WHERE stationVolunteerID=?;', [stationVolunteerID]);
+        res.status(200).json({ message: 'Volunteer removed from aid station' });
+    } catch (err) {
+        console.error('Error removing volunteer from aid station:', err);
+        res.status(500).send('Error removing volunteer from aid station');
+    }
+});
+
 
 // READ ROUTES
 app.get('/races', async (req, res) => {
@@ -260,7 +283,20 @@ app.get('/supplies', async (req, res) => {
 
 app.get('/aid-station-volunteers', async (req, res) => {
     try {
-        const [rows] = await db.query('SELECT * FROM AidStationVolunteers;');
+        const [rows] = await db.query(`
+            SELECT
+                asv.stationVolunteerID,
+                asv.stationID,
+                a.name AS stationName,
+                v.volunteerID,
+                v.fname,
+                v.lname,
+                v.role
+            FROM AidStationVolunteers AS asv
+            JOIN AidStations AS a ON a.stationID = asv.stationID
+            JOIN Volunteers AS v ON v.volunteerID = asv.volunteerID
+            ORDER BY a.name, v.lname, v.fname;
+            `);
         res.status(200).json(rows);
     } catch (err) {
         console.error('Error fetching aid station volunteers:', err);
@@ -268,10 +304,20 @@ app.get('/aid-station-volunteers', async (req, res) => {
     }
 });
 
+app.get('/aid-station-supplies', async (req, res) => {
+    try {
+        const [rows] = await db.query('SELECT * FROM AidStationSupplies;');
+        res.status(200).json(rows);
+    } catch (err) {
+        console.error('Error fetching aid station supplies:', err);
+        res.status(500).send('Error fetching aid station supplies');
+    }
+});
+
 // RESET DB
 app.post('/reset', async (req, res) => {
     try {
-        await db.query('CALL sp_reset_bsgdb();');
+        await db.query('CALL sp_reset_db();');
         console.log('Database reset successfully');
         res.status(200).json({ message: 'Database reset successfully' });
     } catch (error) {

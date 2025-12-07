@@ -14,7 +14,9 @@ function Supplies({ backendURL }) {
         }
     };
 
-    useEffect(() => getData(), []);
+    useEffect(() => {
+        getData();
+    }, []);
 
     return (
         <>

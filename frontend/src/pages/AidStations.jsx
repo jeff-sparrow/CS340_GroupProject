@@ -14,7 +14,9 @@ function AidStations({ backendURL }) {
         }
     };
 
-    useEffect(() => getData(), []);
+    useEffect(() => {
+        getData();
+    }, []);
 
     return (
         <>

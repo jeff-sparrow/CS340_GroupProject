@@ -38,7 +38,7 @@ const CreateRaceForm = ({ backendURL, refreshRaces }) => {
 
     return (
         <>
-        <h2>Create a Race</h2>
+        <h2>Create a New Race</h2>
         <form className='cuForm' onSubmit={handleSubmit}>
             <label htmlFor="create_race_name">Race Name: </label>
             <input

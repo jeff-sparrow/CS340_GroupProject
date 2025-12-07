@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import TableRow from '../components/TableRow';
+import RacesRow from '../components/RacesRow';
 import DeleteRaceForm from '../components/DeleteRaceForm';
 import CreateRaceForm from '../components/CreateRaceForm';
 import UpdateRaceForm from '../components/UpdateRaceForm';
@@ -19,7 +19,7 @@ function Races({ backendURL, refreshTrigger }) {
 
     useEffect(() => {
         getData();
-    }, [refreshTrigger]); // <-- re-fetch when reset happens
+    }, [refreshTrigger]); 
 
     return (
         <>
@@ -32,12 +32,12 @@ function Races({ backendURL, refreshTrigger }) {
                         {races.length > 0 && Object.keys(races[0]).map((header, index) => (
                             <th key={index}>{header}</th>
                         ))}
-                        <th>Actions</th>
+                        <th>Delete Race</th>
                     </tr>
                 </thead>
                 <tbody>
                     {races.map((race, index) => (
-                        <TableRow
+                        <RacesRow
                             key={index}
                             rowObject={race}
                             backendURL={backendURL}
@@ -47,8 +47,8 @@ function Races({ backendURL, refreshTrigger }) {
                 </tbody>
             </table>
                         
-            {/* <CreateRaceForm backendURL={backendURL} refreshRaces={getData} />
-            <UpdateRaceForm races={races} backendURL={backendURL} refreshRaces={getData} /> */}
+            <CreateRaceForm backendURL={backendURL} refreshRaces={getData} />
+            <UpdateRaceForm races={races} backendURL={backendURL} refreshRaces={getData} />
         </>
     );
 }
