@@ -24,7 +24,6 @@ function Races({ backendURL, refreshTrigger }) {
     return (
         <>
             <h1>Races</h1>
-
             <table>
                 <thead>
                     <tr>

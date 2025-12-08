@@ -11,12 +11,6 @@ const RacesRow = ({ rowObject, backendURL, refreshRaces }) => {
     type,
   } = rowObject;
 
-  // debug
-
-  console.log('rowObject:', rowObject);
-  console.log('raceDate on client:', raceDate, typeof raceDate);
-
-
   return (
     <tr>
       <td>{raceID}</td>

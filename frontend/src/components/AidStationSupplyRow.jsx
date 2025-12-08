@@ -1,9 +1,8 @@
 
-
 import React from 'react';
-import DeleteSupplyForm from './DeleteSupplyForm';
+import DeleteAidStationSupplyForm from './DeleteAidStationSupplyForm';
 
-function AidStationSupplyRow({ rowObject, backendURL, refreshData }) {
+function AidStationSupplyRow({ rowObject, backendURL, refreshASS }) {
   const {
     stationSupplyID,
     stationID,
@@ -20,8 +19,7 @@ function AidStationSupplyRow({ rowObject, backendURL, refreshData }) {
       <td>{supplyName}</td>
       <td>{category}</td>
       <td>{quantity}</td>
-      <td>
-        <DeleteSupplyForm
+        <DeleteAidStationSupplyForm
           rowObject={{
             stationSupplyID,
             stationID,
@@ -29,11 +27,11 @@ function AidStationSupplyRow({ rowObject, backendURL, refreshData }) {
             supplyName,
             category,
             quantity,
+            stationName,
           }}
           backendURL={backendURL}
-          refreshData={refreshData}
+          refreshASS={refreshASS}
         />
-      </td>
     </tr>
   );
 }

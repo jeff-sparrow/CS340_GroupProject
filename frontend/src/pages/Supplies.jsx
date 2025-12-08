@@ -33,7 +33,10 @@ function Supplies({ backendURL }) {
                 </thead>
                 <tbody>
                     {supplies.map((s, idx) => (
-                        <SupplyRow key={idx} rowObject={s} backendURL={backendURL} refreshData={getData} />
+                        <SupplyRow key={idx} 
+                                   rowObject={s} 
+                                   backendURL={backendURL} 
+                                   refreshData={getData} />
                     ))}
                 </tbody>
             </table>

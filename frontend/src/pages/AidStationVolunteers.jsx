@@ -30,7 +30,7 @@ function AidStationVolunteers({ backendURL }) {
                     <th>Last Name</th>
                     <th>First Name</th>
                     <th>Role</th>
-                    <th></th>
+                    {/* <th></th> */}
                 </tr>
                 </thead>
                 <tbody>

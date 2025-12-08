@@ -3,7 +3,7 @@
 h1, h2 {
     margin-left: 16px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #2e4600; /* Deep forest green */
+    color: #2e4600; 
 }
 
 /* Tables */
@@ -23,17 +23,17 @@ th, td {
 }
 
 th {
-    background-color: #556b2f; /* Olive green */
-    color: #fdf6e3; /* Light cream */
+    background-color: #556b2f; 
+    color: #fdf6e3; 
     font-weight: 600;
 }
 
 tr:nth-child(even) {
-    background-color: #f4f1ec; /* Soft beige */
+    background-color: #f4f1ec; 
 }
 
 tr:hover {
-    background-color: #dcedc8; /* Light green hover */
+    background-color: #dcedc8;
 }
 
 /* Forms */
@@ -41,7 +41,7 @@ tr:hover {
     margin-left: 32px;
     margin-top: 16px;
     padding: 16px;
-    background-color: #fdf6e3; /* Warm cream */
+    background-color: #fdf6e3; 
     border-radius: 6px;
     box-shadow: 0 1px 4px rgba(0,0,0,0.1);
     width: fit-content;
@@ -59,7 +59,7 @@ input, select, button {
 
 /* Buttons */
 button, input[type="submit"] {
-    background-color: #8fbc8f; /* Sage green */
+    background-color: #8fbc8f; 
     color: #fff;
     cursor: pointer;
     transition: background-color 0.2s;
@@ -67,25 +67,25 @@ button, input[type="submit"] {
 }
 
 button:hover, input[type="submit"]:hover {
-    background-color: #6b8e23; /* Darker olive green */
+    background-color: #6b8e23; 
 }
 
 /* Navigation */
 nav {
-    background-color: #3e2723; /* Rich brown */
+    background-color: #3e2723; 
     padding: 16px;
 }
 
 a {
     margin-left: 16px;
-    color: #fdf6e3; /* Light cream */
+    color: #fdf6e3; 
     text-decoration: none;
     font-weight: 500;
 }
 
 a:hover {
     text-decoration: underline;
-    color: #dcedc8; /* Light green hover */
+    color: #dcedc8; 
 }
 
 /* Homepage */
@@ -101,7 +101,7 @@ a:hover {
     margin-left: 32px;
     margin-top: 8px;
     font-size: 1rem;
-    color: #2e4600; /* Forest green */
+    color: #2e4600; 
     max-width: 800px;
     line-height: 1.5;
 }
@@ -110,6 +110,7 @@ a:hover {
 html, body {
   margin: 0;
   padding: 0;
+  background-color: #ece9e6;
 
 }
 

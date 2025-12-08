@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import AidStationRow from '../components/AidStationRow';
 
-function AidStations({ backendURL }) {
+function AidStations({ backendURL, refreshTrigger }) {
     const [stations, setStations] = useState([]);
 
     const getData = async () => {
@@ -17,7 +17,7 @@ function AidStations({ backendURL }) {
 
     useEffect(() => {
         getData();
-    }, []);
+    }, [refreshTrigger]);
 
     return (
         <>
@@ -36,8 +36,12 @@ function AidStations({ backendURL }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {stations.map((s, idx) => (
-                        <AidStationRow key={idx} rowObject={s} backendURL={backendURL} refreshData={getData} />
+                    {stations.map((station, index) => (
+                        <AidStationRow 
+                            key={index} 
+                            rowObject={station} 
+                            backendURL={backendURL} 
+                            refreshAidStations={getData} />
                     ))}
                 </tbody>
             </table>

@@ -1,8 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
 import AidStationSupplyRow from '../components/AidStationSupplyRow';
+import CreateASSupplyForm from '../components/CreateASSupplyForm';
+import UpdateASSupplyForm from '../components/UpdateASSupplyForm';
 
-function AidStationSupplies({ backendURL }) {
+function AidStationSupplies({ backendURL, refreshTrigger }) {
     const [assupplies, setAidStationSupplies] = useState([]);
 
     const getData = async () => {
@@ -10,15 +12,14 @@ function AidStationSupplies({ backendURL }) {
             const res = await fetch(`${backendURL}/aid-station-supplies`);
             const data = await res.json();
             setAidStationSupplies(data);
-        } catch (err) {
-            console.error(err);
+        } catch (error) {
+            console.error('Error fetching Aid Station Supplies', error);
         }
     }
 
-
     useEffect(() => {
         getData();
-    }, []);
+    }, [refreshTrigger]);
 
     return (
         <>
@@ -39,11 +40,14 @@ function AidStationSupplies({ backendURL }) {
                     key={v.stationSupplyID}
                     rowObject={v}
                     backendURL={backendURL}
-                    refreshData={getData}
+                    refreshASS={getData}
                     />
                 ))}
                 </tbody>
             </table>
+
+            <CreateASSupplyForm backendURL={backendURL} refreshASS={getData} />
+            <UpdateASSupplyForm backendURL={backendURL} refreshASS={getData} />
         </>
     );
 }

@@ -11,7 +11,7 @@ const app = express();
 // Middleware
 const cors = require('cors');
 app.use(cors({ credentials: true, origin: "*" }));
-app.use(express.json()); // this is needed for post requests
+app.use(express.json()); 
 
 
 const PORT = 1775;
@@ -74,6 +74,26 @@ app.post('/supplies/create', async (req, res) => {
     }
 });
 
+
+app.post('/aid-station-supplies', async (req, res) => {
+  try {
+    const { stationID, supplyID, quantity } = req.body;
+
+    await db.query(
+      'CALL sp_CreateAidStationSupply(?, ?, ?, @new_id)',
+      [stationID, supplyID, quantity]
+    );
+
+    const [rows] = await db.query('SELECT @new_id AS stationSupplyID');
+    const stationSupplyID = rows?.[0]?.stationSupplyID;
+
+    res.status(201).json({ stationSupplyID });
+  } catch (err) {
+    console.error('Error creating AidStationSupply via SP:', err);
+    res.status(500).send(err.message || 'Error creating AidStationSupply');
+  }
+});
+
 app.post('/aid-station-volunteers/add', async (req, res) => {
     try {
         const { stationID, volunteerID } = req.body;
@@ -100,6 +120,20 @@ app.patch('/races/:raceID', async (req, res) => {
   } catch (error) {
     console.error('Error updating race:', error);
     res.status(500).send(error.message || 'Error updating race');
+  }
+});
+
+
+app.put('/aid-station-supplies/:stationSupplyID', async (req, res) => {
+  try {
+    const { stationSupplyID } = req.params;
+    const { quantity } = req.body;
+
+    await db.query('CALL sp_UpdateAidStationSupply(?, ?)', [stationSupplyID, quantity]);
+    res.status(200).json({ message: 'Aid Station Supply updated successfully' });
+  } catch (err) {
+    console.error('Error updating AidStationSupply:', err);
+    res.status(500).send(err.message || 'Error updating AidStationSupply');
   }
 });
 
@@ -166,25 +200,80 @@ app.post('/races/delete', async function (req, res) {
     }
 });
 
-app.post('/volunteers/delete', async (req, res) => {
+app.post('/volunteers/delete', async function (req, res) {
     try {
-        const { volunteerID } = req.body;
-        await db.query('DELETE FROM Volunteers WHERE volunteerID=?;', [volunteerID]);
-        res.status(200).json({ message: 'Volunteer deleted' });
-    } catch (err) {
-        console.error('Error deleting volunteer:', err);
-        res.status(500).send('Error deleting volunteer');
+        // Parse frontend form information
+        let data = req.body;
+
+        // Create and execute our query
+        // Using parameterized queries (Prevents SQL injection attacks)
+        const query1 = `CALL sp_DeleteVolunteer(?);`;
+        await db.query(query1, [data.delete_volunteer_id]);
+
+        console.log(`DELETE volunteerID: ${data.delete_volunteer_id} ` +
+            `Name: ${data.delete_volunteer_name}`
+        );
+
+        // Redirect the user to the updated webpage data
+        res.redirect('/volunteers');
+    } catch (error) {
+        console.error('Error executing queries:', error);
+        // Send a generic error message to the browser
+        res.status(500).send(
+            'An error occurred while executing the database queries.'
+        );
     }
 });
 
-app.post('/aid-stations/delete', async (req, res) => {
+app.post('/aid-stations/delete', async function (req, res) {
     try {
-        const { stationID } = req.body;
-        await db.query('DELETE FROM AidStations WHERE stationID=?;', [stationID]);
-        res.status(200).json({ message: 'AidStation deleted' });
-    } catch (err) {
-        console.error('Error deleting aid station:', err);
-        res.status(500).send('Error deleting aid station');
+        // Parse frontend form information
+        let data = req.body;
+
+        // Create and execute our query
+        // Using parameterized queries (Prevents SQL injection attacks)
+        const query1 = `CALL sp_DeleteAidStation(?);`;
+        await db.query(query1, [data.delete_station_id]);
+
+        console.log(`DELETE stationID: ${data.delete_station_id} ` +
+            `Name: ${data.delete_station_name}`
+        );
+
+        // Redirect the user to the updated webpage data
+        res.redirect('/aid-stations');
+    } catch (error) {
+        console.error('Error executing queries:', error);
+        // Send a generic error message to the browser
+        res.status(500).send(
+            'An error occurred while executing the database queries.'
+        );
+    }
+});
+
+app.post('/aid-station-supplies/delete', async function (req, res) {
+    try {
+
+        console.log('ASS delete req.body:', req.body); // <-- add this
+
+        // Parse frontend form information
+        let data = req.body;
+
+        // Create and execute our query
+        // Using parameterized queries (Prevents SQL injection attacks)
+        const query1 = `CALL sp_DeleteAidStationSupply(?);`;
+        await db.query(query1, [data.delete_stationSupply_id]);
+
+        console.log(`DELETE stationSupplyID: ${data.delete_stationSupply_id}`
+        );
+
+        // Redirect the user to the updated webpage data
+        res.redirect('/aid-station-supplies');
+    } catch (error) {
+        console.error('Error executing queries:', error);
+        // Send a generic error message to the browser
+        res.status(500).send(
+            'An error occurred while executing the database queries.'
+        );
     }
 });
 
@@ -307,10 +396,26 @@ app.get('/aid-station-volunteers', async (req, res) => {
     }
 });
 
-
 app.get('/aid-station-supplies', async (req, res) => {
   try {
-    const [rows] = await db.query(`
+    const { stationID, supplyID } = req.query;
+
+    const conditions = [];
+    const params = [];
+
+    if (stationID) {
+      conditions.push('ass.stationID = ?');
+      params.push(stationID);
+    }
+    if (supplyID) {
+      conditions.push('ass.supplyID = ?');
+      params.push(supplyID);
+    }
+
+    const whereClause = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
+
+    const [rows] = await db.query(
+      `
       SELECT
         ass.stationSupplyID,
         ass.stationID,
@@ -321,9 +426,13 @@ app.get('/aid-station-supplies', async (req, res) => {
         ass.quantity
       FROM AidStationSupplies AS ass
       JOIN AidStations AS a ON a.stationID = ass.stationID
-      JOIN Supplies AS s ON s.supplyID = ass.supplyID
+      JOIN Supplies     AS s ON s.supplyID  = ass.supplyID
+      ${whereClause}
       ORDER BY a.name, s.category, s.name;
-    `);
+      `,
+      params
+    );
+
     res.status(200).json(rows);
   } catch (err) {
     console.error('Error fetching aid station supplies:', err);

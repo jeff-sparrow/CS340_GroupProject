@@ -18,8 +18,7 @@ function AidStationVolunteerRow({ rowObject, backendURL, refreshData }) {
       <td>{lname}</td>
       <td>{fname}</td>
       <td>{role}</td>
-      <td>
-        <DeleteVolunteerForm
+        {/* <DeleteVolunteerForm
           rowObject={{
             stationVolunteerID,
             stationID: rowObject.stationID,
@@ -30,8 +29,7 @@ function AidStationVolunteerRow({ rowObject, backendURL, refreshData }) {
           }}
           backendURL={backendURL}
           refreshData={refreshData}
-        />
-      </td>
+        /> */}
     </tr>
   );
 }

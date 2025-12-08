@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import VolunteerRow from '../components/VolunteerRow';
 
-function Volunteers({ backendURL }) {
+function Volunteers({ backendURL, refreshTrigger }) {
     const [volunteers, setVolunteers] = useState([]);
 
     const getData = async () => {
@@ -17,7 +17,7 @@ function Volunteers({ backendURL }) {
 
     useEffect(() => {
         getData();
-    }, []);
+    }, [refreshTrigger]);
 
     return (
         <>
@@ -35,8 +35,12 @@ function Volunteers({ backendURL }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {volunteers.map((v, idx) => (
-                        <VolunteerRow key={idx} rowObject={v} backendURL={backendURL} refreshData={getData} />
+                    {volunteers.map((volunteer, index) => (
+                        <VolunteerRow 
+                            key={index} 
+                            rowObject={volunteer} 
+                            backendURL={backendURL} 
+                            refreshVolunteers={getData} />
                     ))}
                 </tbody>
             </table>

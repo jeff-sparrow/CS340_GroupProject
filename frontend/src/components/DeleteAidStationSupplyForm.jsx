@@ -1,26 +1,25 @@
 
-const DeleteAidStationForm = ({ rowObject, backendURL, refreshAidStations }) => {
+const DeleteAidStationSupplyForm = ({ rowObject, backendURL, refreshASS }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault(); // Prevent default form submission
 
         const formData = {
-            delete_station_id: rowObject.stationID,
-            delete_station_name: rowObject.stationName,
+            delete_stationSupply_id: rowObject.stationSupplyID,
         };
 
         try {
-            const response = await fetch(backendURL + '/aid-stations/delete', {
+            const response = await fetch(backendURL + '/aid-station-supplies/delete', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
             });
 
             if (response.ok) {
-                console.log("Aid Station deleted successfully.");
-                refreshAidStations();
+                console.log("Aid Station Supply deleted successfully.");
+                refreshASS();
             } else {
-                console.error("Error deleting Aid Station.");
+                console.error("Error deleting Aid Station Supply.");
             }
         } catch (error) {
             console.error('Error during form submission:', error);
@@ -40,4 +39,4 @@ const DeleteAidStationForm = ({ rowObject, backendURL, refreshAidStations }) => 
     );
 };
 
-export default DeleteAidStationForm;
+export default DeleteAidStationSupplyForm;

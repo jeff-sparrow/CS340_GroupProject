@@ -154,6 +154,28 @@ END //
 DELIMITER ;
 
 -- -----------------------------------------------------
+-- Create Aid Station Supply
+-- -----------------------------------------------------
+
+DROP PROCEDURE IF EXISTS sp_CreateAidStationSupply;
+DELIMITER //
+CREATE PROCEDURE sp_CreateAidStationSupply (
+    IN  p_stationID INT,
+    IN  p_supplyID  INT,
+    IN  p_quantity  INT,
+    OUT p_newStationSupplyID INT
+)
+COMMENT 'Insert a new AidStationSupplies row and return its stationSupplyID.'
+BEGIN
+    INSERT INTO AidStationSupplies (stationID, supplyID, quantity)
+    VALUES (p_stationID, p_supplyID, p_quantity);
+
+    SET p_newStationSupplyID = LAST_INSERT_ID();
+END //
+DELIMITER ;
+
+
+-- -----------------------------------------------------
 -- Update Race
 -- -----------------------------------------------------
 
@@ -179,24 +201,32 @@ END //
 DELIMITER ;
 
 -- -----------------------------------------------------
+-- Update Aid Station Supply
+-- -----------------------------------------------------
+DROP PROCEDURE IF EXISTS sp_UpdateAidStationSupply;
+DELIMITER //
+CREATE PROCEDURE sp_UpdateAidStationSupply(
+  IN p_stationSupplyID INT,
+  IN p_quantity INT
+)
+BEGIN
+  IF p_quantity <= 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Quantity must be positive';
+  END IF;
+
+  UPDATE AidStationSupplies
+  SET quantity = p_quantity
+  WHERE stationSupplyID = p_stationSupplyID;
+
+  IF ROW_COUNT() = 0 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No matching record found';
+  END IF;
+END //
+DELIMITER ;
+
+-- -----------------------------------------------------
 -- Delete Race
 -- -----------------------------------------------------
-
-
--- DROP PROCEDURE IF EXISTS sp_DeleteRace;
--- DELIMITER //
--- CREATE PROCEDURE sp_DeleteRace (
---     IN  p_raceID   INT,
---     OUT p_deleted  INT
--- )
--- COMMENT 'Delete an existing race by raceID. Sets p_deleted = ROW_COUNT().'
--- BEGIN
---     DELETE FROM Races
---     WHERE raceID = p_raceID;
-
---     SET p_deleted = ROW_COUNT();
--- END //
--- DELIMITER ;
 
 DROP PROCEDURE IF EXISTS sp_DeleteRace;
 
@@ -215,15 +245,115 @@ BEGIN
     END;
 
     START TRANSACTION;
-        -- Deleting corresponding rows from both races table and 
-        --      intersection table to prevent a data anamoly
-        -- This can also be accomplished by using an 'ON DELETE CASCADE' constraint
-        --      inside the bsg_cert_people table.
         DELETE FROM Races WHERE raceID = p_id;
 
         -- ROW_COUNT() returns the number of rows affected by the preceding statement.
         IF ROW_COUNT() = 0 THEN
-            set error_message = CONCAT('No matching record found in races for id: ', p_id);
+            set error_message = CONCAT('No matching record found in Races for id: ', p_id);
+            -- Trigger custom error, invoke EXIT HANDLER
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = error_message;
+        END IF;
+
+    COMMIT;
+
+END //
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- Delete Aid Station
+-- -----------------------------------------------------
+
+DROP PROCEDURE IF EXISTS sp_DeleteAidStation;
+
+DELIMITER //
+CREATE PROCEDURE sp_DeleteAidStation(IN p_id INT)
+BEGIN
+    DECLARE error_message VARCHAR(255); 
+
+    -- error handling
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        -- Roll back the transaction on any error
+        ROLLBACK;
+        -- Propogate the custom error message to the caller
+        RESIGNAL;
+    END;
+
+    START TRANSACTION;
+        DELETE FROM AidStations WHERE stationID = p_id;
+
+        -- ROW_COUNT() returns the number of rows affected by the preceding statement.
+        IF ROW_COUNT() = 0 THEN
+            set error_message = CONCAT('No matching record found in Aid Stations for id: ', p_id);
+            -- Trigger custom error, invoke EXIT HANDLER
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = error_message;
+        END IF;
+
+    COMMIT;
+
+END //
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- Delete Aid Station Supply
+-- -----------------------------------------------------
+
+DROP PROCEDURE IF EXISTS sp_DeleteAidStationSupply;
+
+DELIMITER //
+CREATE PROCEDURE sp_DeleteAidStationSupply(IN p_id INT)
+BEGIN
+    DECLARE error_message VARCHAR(255); 
+
+    -- error handling
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        -- Roll back the transaction on any error
+        ROLLBACK;
+        -- Propogate the custom error message to the caller
+        RESIGNAL;
+    END;
+
+    START TRANSACTION;
+        DELETE FROM AidStationSupplies WHERE stationSupplyID = p_id;
+
+        -- ROW_COUNT() returns the number of rows affected by the preceding statement.
+        IF ROW_COUNT() = 0 THEN
+            set error_message = CONCAT('No matching record found in AidStationSupplies for id: ', p_id);
+            -- Trigger custom error, invoke EXIT HANDLER
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = error_message;
+        END IF;
+    COMMIT;
+
+END //
+DELIMITER ;
+
+-- -----------------------------------------------------
+-- Delete Volunteer
+-- -----------------------------------------------------
+
+DROP PROCEDURE IF EXISTS sp_DeleteVolunteer;
+
+DELIMITER //
+CREATE PROCEDURE sp_DeleteVolunteer(IN p_id INT)
+BEGIN
+    DECLARE error_message VARCHAR(255); 
+
+    -- error handling
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        -- Roll back the transaction on any error
+        ROLLBACK;
+        -- Propogate the custom error message to the caller
+        RESIGNAL;
+    END;
+
+    START TRANSACTION;
+        DELETE FROM Volunteers WHERE volunteerID = p_id;
+
+        -- ROW_COUNT() returns the number of rows affected by the preceding statement.
+        IF ROW_COUNT() = 0 THEN
+            set error_message = CONCAT('No matching record found in Volunteers for id: ', p_id);
             -- Trigger custom error, invoke EXIT HANDLER
             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = error_message;
         END IF;
