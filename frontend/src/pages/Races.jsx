@@ -1,6 +1,6 @@
+
 import { useState, useEffect } from 'react';
 import RacesRow from '../components/RacesRow';
-import DeleteRaceForm from '../components/DeleteRaceForm';
 import CreateRaceForm from '../components/CreateRaceForm';
 import UpdateRaceForm from '../components/UpdateRaceForm';
 
@@ -25,14 +25,15 @@ function Races({ backendURL, refreshTrigger }) {
         <>
             <h1>Races</h1>
 
-
             <table>
                 <thead>
                     <tr>
-                        {races.length > 0 && Object.keys(races[0]).map((header, index) => (
-                            <th key={index}>{header}</th>
-                        ))}
-                        <th>Delete Race</th>
+                        <th>Race ID</th>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th>Distance</th>
+                        <th>Surface</th>                                                                                                
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>

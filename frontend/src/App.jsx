@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
@@ -8,7 +9,7 @@ import AidStations from './pages/AidStations';
 import Volunteers from './pages/Volunteers';
 import Supplies from './pages/Supplies';
 import AidStationVolunteers from './pages/AidStationVolunteers';
-// import AidStationSupplies from './pages/AidStationSupplies';
+import AidStationSupplies from './pages/AidStationSupplies';
 
 // Components
 import Navigation from './components/Navigation';
@@ -31,7 +32,7 @@ function App() {
                 <Route path="/volunteers" element={<Volunteers backendURL={backendURL} />} />
                 <Route path="/supplies" element={<Supplies backendURL={backendURL} />} />
                 <Route path="/aid-station-volunteers" element={<AidStationVolunteers backendURL={backendURL} />} />
-                {/* <Route path="/aid-station-supplies" element={<AidStationSupplies backendURL={backendURL} />} /> */}
+                <Route path="/aid-station-supplies" element={<AidStationSupplies backendURL={backendURL} />} />
             </Routes>
         </>
     );

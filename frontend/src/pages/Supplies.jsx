@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import SupplyRow from '../components/SupplyRow';
 
@@ -24,8 +25,10 @@ function Supplies({ backendURL }) {
             <table>
                 <thead>
                     <tr>
-                        {supplies.length > 0 && Object.keys(supplies[0]).map((key, idx) => <th key={idx}>{key}</th>)}
-                        <th>Actions</th>
+                        <th>Supply ID</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th></th>  
                     </tr>
                 </thead>
                 <tbody>

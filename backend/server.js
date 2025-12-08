@@ -20,29 +20,21 @@ const PORT = 1775;
 // ########## ROUTE HANDLERS
 
 // CREATE ROUTES
-app.post('/races/create', async function (req, res) {
-    try {
-        // Parse frontend form information
-        let data = req.body; // { name, date, distance, type }
+app.post('/races', async (req, res) => {
+  try {
+    const { name, date, distance, type } = req.body;
 
-        // Cleanse numeric fields
-        if (isNaN(parseInt(data.distance))) data.distance = null;
+    await db.query(`CALL sp_CreateRace(?, ?, ?, ?, @new_id)`, [name, date, distance, type]);
+    const [rows] = await db.query(`SELECT @new_id AS raceID`);
+    const raceID = rows?.[0]?.raceID;
 
-        // Execute stored procedure
-        const query1 = `CALL sp_CreateRace(?, ?, ?, ?, @new_id);`;
-
-        // Store ID of last inserted row
-        const [[[rows]]] = await db.query(query1, [data.name, data.date, data.distance, data.type]);
-
-        console.log(`CREATE race. ID: ${rows.new_id} Name: ${data.name}, Date: ${data.date}, Distance: ${data.distance}, Type: ${data.type}`);
-
-        // Send success response
-        res.status(200).json({ message: 'Race created successfully' });
-    } catch (error) {
-        console.error('Error creating race:', error);
-        res.status(500).send('An error occurred while executing the database queries.');
-    }
+    res.status(201).json({ raceID });
+  } catch (err) {
+    console.error('Error creating race via SP:', err);
+    res.status(500).send(err.message || 'Error creating race');
+  }
 });
+
 
 app.post('/volunteers/create', async (req, res) => {
     try {
@@ -95,34 +87,20 @@ app.post('/aid-station-volunteers/add', async (req, res) => {
 });
 
 // UPDATE ROUTES
-app.post('/races/update', async function (req, res) {
-    try {
-        // Parse frontend form information
-        const data = req.body; // { update_race_id, update_name, update_date, update_distance, update_type }
+app.patch('/races/:raceID', async (req, res) => {
+  try {
+    const { raceID } = req.params;
+    const { name, date, distance, type } = req.body;
 
-        // Cleanse numeric fields
-        if (isNaN(parseInt(data.update_distance))) data.update_distance = null;
+    await db.query(`CALL sp_UpdateRace(?, ?, ?, ?, ?)`, [
+      raceID, name, date, distance, type
+    ]);
 
-        // Execute update stored procedure
-        const query1 = 'CALL sp_UpdateRace(?, ?, ?, ?, ?);';
-        const query2 = 'SELECT name, date, distance, type FROM Races WHERE raceID = ?;';
-
-        await db.query(query1, [data.update_race_id, data.update_name, data.update_date, data.update_distance, data.update_type]);
-
-        // Get updated record for logging
-        const [[rows]] = await db.query(query2, [data.update_race_id]);
-
-        console.log(`UPDATE race. ID: ${data.update_race_id} ` +
-            `Name: ${rows.name}, Date: ${rows.date}, Distance: ${rows.distance}, Type: ${rows.type}`
-        );
-
-        // Send success status to frontend
-        res.status(200).json({ message: 'Race updated successfully' });
-
-    } catch (error) {
-        console.error('Error updating race:', error);
-        res.status(500).send('An error occurred while executing the database queries.');
-    }
+    res.status(200).json({ message: 'Race updated successfully' });
+  } catch (error) {
+    console.error('Error updating race:', error);
+    res.status(500).send(error.message || 'Error updating race');
+  }
 });
 
 app.post('/aid-stations/update', async (req, res) => {
@@ -165,17 +143,26 @@ app.post('/volunteers/update', async (req, res) => {
 // DELETE ROUTES
 app.post('/races/delete', async function (req, res) {
     try {
-        const data = req.body; // { delete_race_id, delete_race_name }
-        const query = 'DELETE FROM Races WHERE raceID = ?;';
-        await db.query(query, [data.delete_race_id]);
+        // Parse frontend form information
+        let data = req.body;
 
-        console.log(`DELETE race. ID: ${data.delete_race_id} Name: ${data.delete_race_name}`);
+        // Create and execute our query
+        // Using parameterized queries (Prevents SQL injection attacks)
+        const query1 = `CALL sp_DeleteRace(?);`;
+        await db.query(query1, [data.delete_race_id]);
 
-        // Send success response
-        res.status(200).json({ message: 'Race deleted successfully' });
+        console.log(`DELETE raceID: ${data.delete_race_id} ` +
+            `Name: ${data.delete_race_name}`
+        );
+
+        // Redirect the user to the updated webpage data
+        res.redirect('/races');
     } catch (error) {
-        console.error('Error deleting race:', error);
-        res.status(500).send('An error occurred while deleting the race.');
+        console.error('Error executing queries:', error);
+        // Send a generic error message to the browser
+        res.status(500).send(
+            'An error occurred while executing the database queries.'
+        );
     }
 });
 
@@ -234,21 +221,24 @@ app.post('/aid-station-supplies/remove', async (req, res) => {
     }
 });
 
-
-// READ ROUTES
 app.get('/races', async (req, res) => {
-    try {
-        // Query all races
-        const query = 'SELECT * FROM Races;';
-        const [races] = await db.query(query);
-
-        // Send the results as JSON to the frontend
-        res.status(200).json(races);
-
-    } catch (error) {
-        console.error("Error fetching races:", error);
-        res.status(500).send("An error occurred while fetching races.");
-    }
+  try {
+    const query = `
+      SELECT
+        raceID,
+        name,
+        DATE_FORMAT(\`date\`, '%Y-%m-%d') AS raceDate,
+        distance,
+        type
+      FROM Races
+      ORDER BY raceID;
+    `;
+    const [races] = await db.query(query);
+    res.status(200).json(races);
+  } catch (error) {
+    console.error("Error fetching races:", error);
+    res.status(500).send("An error occurred while fetching races.");
+  }
 });
 
 app.get('/volunteers', async (req, res) => {
@@ -263,7 +253,20 @@ app.get('/volunteers', async (req, res) => {
 
 app.get('/aid-stations', async (req, res) => {
     try {
-        const [rows] = await db.query('SELECT * FROM AidStations;');
+        const query = `
+            SELECT
+                sta.stationID,
+                r.name AS raceName,
+                sta.name AS stationName,
+                sta.mileMarker,
+                sta.elevation,
+                sta.latitude,
+                sta.longitude
+            FROM AidStations as sta
+            JOIN Races AS r ON sta.raceID = r.raceID
+            ORDER BY r.name, sta.mileMarker
+            `;
+        const [rows] = await db.query(query);
         res.status(200).json(rows);
     } catch (err) {
         console.error('Error fetching aid stations:', err);
@@ -304,15 +307,30 @@ app.get('/aid-station-volunteers', async (req, res) => {
     }
 });
 
+
 app.get('/aid-station-supplies', async (req, res) => {
-    try {
-        const [rows] = await db.query('SELECT * FROM AidStationSupplies;');
-        res.status(200).json(rows);
-    } catch (err) {
-        console.error('Error fetching aid station supplies:', err);
-        res.status(500).send('Error fetching aid station supplies');
-    }
+  try {
+    const [rows] = await db.query(`
+      SELECT
+        ass.stationSupplyID,
+        ass.stationID,
+        a.name AS stationName,
+        ass.supplyID,
+        s.name AS supplyName,
+        s.category,
+        ass.quantity
+      FROM AidStationSupplies AS ass
+      JOIN AidStations AS a ON a.stationID = ass.stationID
+      JOIN Supplies AS s ON s.supplyID = ass.supplyID
+      ORDER BY a.name, s.category, s.name;
+    `);
+    res.status(200).json(rows);
+  } catch (err) {
+    console.error('Error fetching aid station supplies:', err);
+    res.status(500).send('Error fetching aid station supplies');
+  }
 });
+
 
 // RESET DB
 app.post('/reset', async (req, res) => {

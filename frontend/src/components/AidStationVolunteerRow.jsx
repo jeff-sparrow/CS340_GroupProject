@@ -1,3 +1,4 @@
+
 import React from 'react';
 import DeleteVolunteerForm from './DeleteVolunteerForm';
 
@@ -18,7 +19,7 @@ function AidStationVolunteerRow({ rowObject, backendURL, refreshData }) {
       <td>{fname}</td>
       <td>{role}</td>
       <td>
-        {/* <DeleteVolunteerForm
+        <DeleteVolunteerForm
           rowObject={{
             stationVolunteerID,
             stationID: rowObject.stationID,
@@ -29,7 +30,7 @@ function AidStationVolunteerRow({ rowObject, backendURL, refreshData }) {
           }}
           backendURL={backendURL}
           refreshData={refreshData}
-        /> */}
+        />
       </td>
     </tr>
   );

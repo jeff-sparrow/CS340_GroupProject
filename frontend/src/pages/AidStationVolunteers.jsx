@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import AidStationVolunteerRow from '../components/AidStationVolunteerRow';
 
@@ -7,9 +8,7 @@ function AidStationVolunteers({ backendURL }) {
     const getData = async () => {
         try {
             const res = await fetch(`${backendURL}/aid-station-volunteers`);
-            console.log('[AidStationVolunteers] backendURL:', backendURL);
             const data = await res.json();
-            console.log('[AidStationVolunteers] length:', data.length, 'sample:', data[0]);
             setAidStationVolunteers(data);
         } catch (err) {
             console.error(err);
@@ -31,7 +30,7 @@ function AidStationVolunteers({ backendURL }) {
                     <th>Last Name</th>
                     <th>First Name</th>
                     <th>Role</th>
-                    <th>Remove</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>

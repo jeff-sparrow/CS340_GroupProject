@@ -1,92 +1,9 @@
-/* :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-} */
-
-/* h1, h2 { margin-left: 16px;}
-table {border-collapse: collapse;margin-left: 32px;}
-th, td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: center;
-}
-th {background-color: #f2f2f2;}
-tr:nth-child(even) {background-color: #f9f9f9;}
-.cuForm { margin-left: 32px;}
-input, select { margin-bottom: 4px;margin-right: 12px;}
-nav {background-color: #cecece;padding: 16px;}
-a {margin-left: 16px;}
-.homepageDescription {margin-left: 32px;} */
 
 /* Headings */
 h1, h2 {
     margin-left: 16px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #2c3e50;
+    color: #2e4600; /* Deep forest green */
 }
 
 /* Tables */
@@ -106,17 +23,17 @@ th, td {
 }
 
 th {
-    background-color: #3498db;
-    color: white;
+    background-color: #556b2f; /* Olive green */
+    color: #fdf6e3; /* Light cream */
     font-weight: 600;
 }
 
 tr:nth-child(even) {
-    background-color: #ecf0f1;
+    background-color: #f4f1ec; /* Soft beige */
 }
 
 tr:hover {
-    background-color: #d6eaf8;
+    background-color: #dcedc8; /* Light green hover */
 }
 
 /* Forms */
@@ -124,10 +41,11 @@ tr:hover {
     margin-left: 32px;
     margin-top: 16px;
     padding: 16px;
-    background-color: #f7f9fa;
+    background-color: #fdf6e3; /* Warm cream */
     border-radius: 6px;
     box-shadow: 0 1px 4px rgba(0,0,0,0.1);
     width: fit-content;
+    border: 1px solid #ccc;
 }
 
 input, select, button {
@@ -135,43 +53,83 @@ input, select, button {
     margin-right: 12px;
     padding: 6px 10px;
     border-radius: 4px;
-    border: 1px solid #ccc;
+    border: 1px solid #a9a9a9;
+    font-family: inherit;
 }
 
-button {
-    background-color: #3498db;
-    color: white;
+/* Buttons */
+button, input[type="submit"] {
+    background-color: #8fbc8f; /* Sage green */
+    color: #fff;
     cursor: pointer;
     transition: background-color 0.2s;
+    border: none;
 }
 
-button:hover {
-    background-color: #2980b9;
+button:hover, input[type="submit"]:hover {
+    background-color: #6b8e23; /* Darker olive green */
 }
 
 /* Navigation */
 nav {
-    background-color: #34495e;
+    background-color: #3e2723; /* Rich brown */
     padding: 16px;
 }
 
 a {
     margin-left: 16px;
-    color: #ecf0f1;
+    color: #fdf6e3; /* Light cream */
     text-decoration: none;
     font-weight: 500;
 }
 
 a:hover {
     text-decoration: underline;
+    color: #dcedc8; /* Light green hover */
 }
 
-/* Homepage Description */
-.homepageDescription {
+/* Homepage */
+.homepage-body {
+  max-width: 900px;   
+  margin: 0 auto;     
+  padding: 16px;
+  text-align: center;
+
+}
+
+.homepage-description {
     margin-left: 32px;
     margin-top: 8px;
     font-size: 1rem;
-    color: #34495e;
+    color: #2e4600; /* Forest green */
     max-width: 800px;
     line-height: 1.5;
+}
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+
+}
+
+/* Banner */
+.banner {
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+  position: relative;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.banner-image {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: auto;
+  min-height: 325px;
+  transform: translateY(-50%);
+  object-fit: cover;
+  object-position: center;
 }

@@ -100,7 +100,8 @@ CREATE TABLE IF NOT EXISTS AidStationSupplies (
 INSERT INTO Races (name, date, distance, type)
 VALUES ('Over the Hills', '2024-12-12', 12, 'trail'),
        ('Country Cross', '2020-10-10', 52, 'road'),
-       ('Ultra Run', '2026-03-03', 146, 'road');
+       ('Ultra Run', '2026-03-03', 146, 'road'),
+       ('Western States Endurance Run', '2026-07-28', 100, 'trail');
 
 INSERT INTO AidStations (raceID, name,  mileMarker, elevation, latitude, longitude)
 VALUES ((SELECT raceID FROM Races WHERE name = 'Country Cross'), 'The Hub', 3, 1000, 22, 123),

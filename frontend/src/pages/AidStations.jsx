@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import AidStationRow from '../components/AidStationRow';
 
@@ -24,8 +25,14 @@ function AidStations({ backendURL }) {
             <table>
                 <thead>
                     <tr>
-                        {stations.length > 0 && Object.keys(stations[0]).map((key, idx) => <th key={idx}>{key}</th>)}
-                        <th>Actions</th>
+                        <th>Station ID</th>
+                        <th>Race </th>
+                        <th>Station Name</th>
+                        <th>Mile Marker</th>
+                        <th>Elevation</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                        <th></th>  
                     </tr>
                 </thead>
                 <tbody>

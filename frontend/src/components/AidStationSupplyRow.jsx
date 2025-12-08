@@ -1,14 +1,42 @@
-import React from 'react';
-// import RemoveSupply from './RemoveSupply';
 
-const AidStationSupplyRow = ({ rowObject, backendURL, refreshData }) => (
+
+import React from 'react';
+import DeleteSupplyForm from './DeleteSupplyForm';
+
+function AidStationSupplyRow({ rowObject, backendURL, refreshData }) {
+  const {
+    stationSupplyID,
+    stationID,
+    stationName,
+    supplyID,
+    supplyName,
+    category,
+    quantity,
+  } = rowObject;
+
+  return (
     <tr>
-        {Object.values(rowObject).map((v, idx) => <td key={idx}>{v}</td>)}
-        <td>
-            {/* <DeleteSupplyForm rowObject={rowObject} backendURL={backendURL} refreshData={refreshData} /> */}
-            test
-        </td>
+      <td>{stationName}</td>
+      <td>{supplyName}</td>
+      <td>{category}</td>
+      <td>{quantity}</td>
+      <td>
+        <DeleteSupplyForm
+          rowObject={{
+            stationSupplyID,
+            stationID,
+            supplyID,
+            supplyName,
+            category,
+            quantity,
+          }}
+          backendURL={backendURL}
+          refreshData={refreshData}
+        />
+      </td>
     </tr>
-);
+  );
+}
 
 export default AidStationSupplyRow;
+

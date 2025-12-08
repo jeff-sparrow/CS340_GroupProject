@@ -1,21 +1,34 @@
+
 import React from 'react';
 import ResetButton from '../components/ResetButton';
 
 function Home({ backendURL, triggerRefresh }) {
-    return (
-        <>
-            <h1>Race Management Database</h1>
-            <div className="homepageDescription">
-                <h2>Welcome to the Race Aid Station Management System!</h2>
-                <p>
-                    Here you will find pages to view and edit information about races, 
-                    aid stations, volunteers, supplies, and specific aid stations assignments.
-                </p>
-            </div>
+  return (
+    <>
+      <div className="banner">
+        <img
+          className="banner-image"
+          src="/images/akadake.png"
+          alt="A view of Mt. Fuji from above the clouds atop Mt. Akadake."
+        />
+      </div>
 
-            <ResetButton backendURL={backendURL} refreshData={triggerRefresh} />
-        </>
-    );
+      <div className="homepage-body">
+        <h1>Ultramarathon Aid Station Management</h1>
+
+        <div className="homepage-description">
+          <h3>Aid Station, Volunteer & Supply Management Tool for Race Planners</h3>
+          <p>
+            Simplify the logistics of your next event with a centralized platform designed for race directors and planners. Easily 
+            manage every detail—from race information and aid station layouts to volunteer assignments and supply 
+            tracking. 
+          </p>
+        </div>
+
+        <ResetButton backendURL={backendURL} refreshData={triggerRefresh} />
+      </div>
+    </>
+  );
 }
 
 export default Home;

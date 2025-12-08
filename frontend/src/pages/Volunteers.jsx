@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import VolunteerRow from '../components/VolunteerRow';
 
@@ -24,8 +25,13 @@ function Volunteers({ backendURL }) {
             <table>
                 <thead>
                     <tr>
-                        {volunteers.length > 0 && Object.keys(volunteers[0]).map((key, idx) => <th key={idx}>{key}</th>)}
-                        <th>Actions</th>
+                        <th>Volunteer ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Role</th>
+                        <th></th>                                                                                                                                          
                     </tr>
                 </thead>
                 <tbody>
