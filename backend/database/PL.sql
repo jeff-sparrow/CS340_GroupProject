@@ -1,3 +1,10 @@
+-- Citation for the SPs:
+-- Date: 12/08/2025
+-- Based on: CS340 PL/SQL Exporations/Activities and iterative Copilot queries during some debugging
+-- Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-pl-slash-sql-part-1-sp-view-and-function
+-- Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-pl-slash-sql-part-2-stored-procedures-for-cud
+-- Source URL: https://m365.cloud.microsoft/
+
 DROP PROCEDURE IF EXISTS sp_reset_db;
 DELIMITER //
 CREATE PROCEDURE sp_reset_db()
