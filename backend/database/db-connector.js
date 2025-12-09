@@ -1,3 +1,10 @@
+// Citation:
+// Date: 12/08/2025
+// Adapted from: CS340 Exporations/Activities
+// Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2
+
+https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2
+
 // Get an instance of mysql we can use in the app
 let mysql = require('mysql2')
 
