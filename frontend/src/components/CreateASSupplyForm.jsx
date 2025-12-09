@@ -1,3 +1,7 @@
+// Citation:
+// Date: 12/08/2025
+// Adapted from: Iterative copilot queries describing desired functionality
+// Source URL: https://m365.cloud.microsoft/
 
 import React, { useState, useEffect } from 'react';
 
