@@ -1,3 +1,8 @@
+-- Citation for the queries:
+-- Date: 12/08/2025
+-- Based on: CS340 Exporations/Activities
+-- Sample Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/activity-4-creating-a-customer-object-table
+
 SET FOREIGN_KEY_CHECKS=0;
 SET AUTOCOMMIT = 0;
 
