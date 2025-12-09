@@ -28,8 +28,8 @@ Contact the authors for any questions or assistance with intallation/usage of ap
 
 ## Authors
 
-Armam Ahmed
-Jeffrey Sparrow
+* Armam Ahmed
+* Jeffrey Sparrow
 
 ## Version History
 
