@@ -1,3 +1,8 @@
+// Citation:
+// Date: 12/08/2025
+// Adapted from: CS340 Exporations/Activities and iterative copilot queries describing desired functionality
+// Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2
+// Source URL: https://m365.cloud.microsoft/
 
 import React, { useState, useEffect } from 'react';
 
