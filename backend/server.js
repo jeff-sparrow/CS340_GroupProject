@@ -1,3 +1,9 @@
+// Citation:
+// Date: 12/08/2025
+// Adapted from: CS340 Exporations/Activities and iterative Copilot queries for M:N routes in particular
+// Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2
+// Source URL: https://m365.cloud.microsoft/
+
 // ########################################
 // ########## SETUP
 
@@ -285,28 +291,6 @@ app.post('/supplies/delete', async (req, res) => {
     } catch (err) {
         console.error('Error deleting supply:', err);
         res.status(500).send('Error deleting supply');
-    }
-});
-
-app.post('/aid-station-volunteers/remove', async (req, res) => {
-    try {
-        const { stationVolunteerID } = req.body;
-        await db.query('DELETE FROM AidStationVolunteers WHERE stationVolunteerID=?;', [stationVolunteerID]);
-        res.status(200).json({ message: 'Volunteer removed from aid station' });
-    } catch (err) {
-        console.error('Error removing volunteer from aid station:', err);
-        res.status(500).send('Error removing volunteer from aid station');
-    }
-});
-
-app.post('/aid-station-supplies/remove', async (req, res) => {
-    try {
-        const { stationSupplyID } = req.body;
-        await db.query('DELETE FROM AidStationVolunteers WHERE stationVolunteerID=?;', [stationVolunteerID]);
-        res.status(200).json({ message: 'Volunteer removed from aid station' });
-    } catch (err) {
-        console.error('Error removing volunteer from aid station:', err);
-        res.status(500).send('Error removing volunteer from aid station');
     }
 });
 
