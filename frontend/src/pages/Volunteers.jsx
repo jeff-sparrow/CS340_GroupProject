@@ -1,3 +1,7 @@
+// Citation:
+// Date: 12/08/2025
+// Adapted from: CS340 Exporations/Activities
+// Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2
 
 import React, { useState, useEffect } from 'react';
 import VolunteerRow from '../components/VolunteerRow';
