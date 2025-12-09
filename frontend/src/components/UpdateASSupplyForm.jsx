@@ -1,9 +1,13 @@
+// Citation:
+// Date: 12/08/2025
+// Adapted from: Iterative copilot queries describing desired functionality
+// Source URL: https://m365.cloud.microsoft/
 
 import React, { useState, useEffect } from 'react';
 
 const UpdateASSupplyForm = ({ backendURL, refreshASS }) => {
-  const [stations, setStations] = useState([]);           // [{ stationID, stationName, raceName }]
-  const [stationSupplies, setStationSupplies] = useState([]); // [{ stationSupplyID, supplyName, category, quantity }]
+  const [stations, setStations] = useState([]); 
+  const [stationSupplies, setStationSupplies] = useState([]); 
   const [form, setForm] = useState({
     stationID: '',
     stationSupplyID: '',
